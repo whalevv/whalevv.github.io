@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>自编码器(AutoEncoder) | whalevv</title><meta name="keywords" content="机器学习"><meta name="author" content="whalevv"><meta name="copyright" content="whalevv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="自编码器原理与结构原理​        自编码器（autoencoder, AE）是一类在半监督学习和非监督学习中使用的人工神经网络（Artificial Neural Networks, ANNs），其功能是通过将输入信息作为学习目标，对输入信息进行表征学习（representation learning 。 ​        自编码器包含编码器（encoder）和解码器（decoder）两部分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自编码器(AutoEncoder)">
+<meta property="og:url" content="http://example.com/2022/11/10/AE/index.html">
+<meta property="og:site_name" content="whalevv">
+<meta property="og:description" content="自编码器原理与结构原理​        自编码器（autoencoder, AE）是一类在半监督学习和非监督学习中使用的人工神经网络（Artificial Neural Networks, ANNs），其功能是通过将输入信息作为学习目标，对输入信息进行表征学习（representation learning 。 ​        自编码器包含编码器（encoder）和解码器（decoder）两部分">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-10T07:52:47.000Z">
+<meta property="article:modified_time" content="2022-11-10T08:50:32.000Z">
+<meta property="article:author" content="whalevv">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary"><link rel="shortcut icon" href="https://s2.loli.net/2022/10/17/Cy1vSmBiARjOfl4.png"><link rel="canonical" href="http://example.com/2022/11/10/AE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '自编码器(AutoEncoder)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-10 16:50:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> <script src="/live2d-widget/autoload.js"></script><script src="/live2d-widget/autoload.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">whalevv</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">自编码器(AutoEncoder)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-10T07:52:47.000Z" title="发表于 2022-11-10 15:52:47">2022-11-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-10T08:50:32.000Z" title="更新于 2022-11-10 16:50:32">2022-11-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="自编码器(AutoEncoder)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="自编码器原理与结构"><a href="#自编码器原理与结构" class="headerlink" title="自编码器原理与结构"></a>自编码器原理与结构</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>​        自编码器（autoencoder, AE）是一类在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/半监督学习/9075473?fromModule=lemma_inlink">半监督学习</a>和<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/非监督学习/16588789?fromModule=lemma_inlink">非监督学习</a>中使用的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/人工神经网络/382460?fromModule=lemma_inlink">人工神经网络</a>（Artificial Neural Networks, ANNs），其功能是通过将输入信息作为学习目标，对输入信息进行<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/表征学习/2140515?fromModule=lemma_inlink">表征学习</a>（representation learning 。</p>
+<p>​        自编码器包含编码器（encoder）和解码器（decoder）两部分。按学习范式，自编码器可以被分为<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/收缩自编码器/22768373?fromModule=lemma_inlink">收缩自编码器</a>（contractive autoencoder）、<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/正则自编码器/22768165?fromModule=lemma_inlink">正则自编码器</a>（regularized autoencoder）和变分自编码器（Variational AutoEncoder, VAE），其中前两者是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/判别模型/16224017?fromModule=lemma_inlink">判别模型</a>、后者是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/生成模型/6563656?fromModule=lemma_inlink">生成模型</a> 。按构筑类型，自编码器可以是前馈结构或递归结构的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/神经网络/16600562?fromModule=lemma_inlink">神经网络</a>。</p>
+<p>​        自编码器具有一般意义上表征学习<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/算法/209025?fromModule=lemma_inlink">算法</a>的功能，被应用于<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/降维/12737059?fromModule=lemma_inlink">降维</a>（dimensionality reduction）和异常值检测（anomaly detection）。包含<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/卷积层/22701737?fromModule=lemma_inlink">卷积层</a>构筑的自编码器可被应用于<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/计算机视觉/2803351?fromModule=lemma_inlink">计算机视觉</a>问题，包括<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/图像降噪/4136566?fromModule=lemma_inlink">图像降噪</a>（image denoising）、神经风格迁移（neural style transfer）等。</p>
+<p>​        一个简单的自编码器结构如下：</p>
+<p><img src="https://s2.loli.net/2022/11/10/Fqwn1rkJioLWNAp.png" alt="https://s2.loli.net/2022/11/10/Fqwn1rkJioLWNAp.png"></p>
+<p>上述结构输入层到隐藏层为Encoder(编码器)，隐藏层到输出层为Decoder(解码器)。</p>
+<p>​        常用的降维方法有主成分分析法(PCA)，PCA降维的原理可参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/Cyril_KI/article/details/107700814">降维基础知识（样本均值、样本方差、中心矩阵）与PCA（最大投影方差，最小重构代价，SVD分解）</a></p>
+<p>​        自编码器降维则是通过让隐藏层神经元的数目远低于输入层，那么我们就可以用更少的特征(神经元)去表征输入数据，从而达到降维目的。</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p><img src="https://s2.loli.net/2022/11/10/3JY2jN8HtgnbZDL.png" alt="https://s2.loli.net/2022/11/10/3JY2jN8HtgnbZDL.png"></p>
+<p>对于样本x，自编码器的中间隐藏层的活性值为x的编码，即：</p>
+<p><img src="https://s2.loli.net/2022/11/10/rV2dIFxktCZc3yv.png" alt="https://s2.loli.net/2022/11/10/rV2dIFxktCZc3yv.png"></p>
+<p>自编码器的输出为重构的数据：</p>
+<p><img src="https://s2.loli.net/2022/11/10/x7mJYp2i6uCacd9.png" alt="https://s2.loli.net/2022/11/10/x7mJYp2i6uCacd9.png"></p>
+<p>其中，W (1),W(2),b(1),b(2)是自编码器网络的参数，参数经梯度下降训练得到。</p>
+<p>​        搭建一个自编码器需要以下几个步骤：</p>
+<p>1.搭建编码器</p>
+<p>2.搭建解码器</p>
+<p>3.设定一个损失函数</p>
+<p>4.训练</p>
+<h1 id="自编码器分类"><a href="#自编码器分类" class="headerlink" title="自编码器分类"></a>自编码器分类</h1><h2 id="普通自编码器"><a href="#普通自编码器" class="headerlink" title="普通自编码器"></a>普通自编码器</h2><p>输入与输出完全相同，即前面的基本结构。</p>
+<h2 id="堆叠自编码器"><a href="#堆叠自编码器" class="headerlink" title="堆叠自编码器"></a>堆叠自编码器</h2><p>​        对于很多数据来说， 仅使用两层神经网络的自编码器还不足以获取一种好的数据表示。为了获取更好的数据表示， 我们可以使用更深层的神经网络。深层神经网络作为自编码器提取的数据表示一般会更加抽象， 能够更好地捕捉到数据的语义信息。<br>  在实践中经常使用逐层堆叠的方式来训练一个深层的自编码器，称为堆叠自编码器（Stacked Auto-Encoder， SAE）。堆叠自编码器一般可以采用逐层训练（Layer-Wise Training）来学习网络参数。<br>  举一个具体的例子：</p>
+<p><img src="https://s2.loli.net/2022/11/10/NamxIZ7GTdhzKp3.png" alt="https://s2.loli.net/2022/11/10/NamxIZ7GTdhzKp3.png"></p>
+<p>可以看到，相比于普通的自编码器，我们将隐藏层的个数从1增加到3，其实就是三个普通自编码器堆叠而成。<br>训练过程如下：</p>
+<p>第一个自编码器：784-&gt;1000-&gt;784。训练完毕后，固定参数和中间隐层的结果，去掉输出层和相应的权值偏置，然后将隐藏层1000作为第二个自编码器的输入。<br>第二个自编码器：1000-&gt;1000-&gt;1000。训练完毕后，固定参数和中间隐层的结果，去掉输出层和相应的权值偏置，然后再将隐藏层1000作为第三个自编码器的输入。<br>第三个自编码器：1000-&gt;500-&gt;1000。训练完毕后，固定参数和中间隐层的结果，去掉输出层和相应的权值偏置。<br>在第三个自编码器隐藏层后面加一个分类器(softmax)，进行解码恢复。<br>  三个自编码器训练完毕后，最后要进行的是整体的反向调优训练，即整体网络使用反向传播进行训练，对参数进行微调。</p>
+<h2 id="降噪自编码器-Denoising-Auto-Encoder"><a href="#降噪自编码器-Denoising-Auto-Encoder" class="headerlink" title="降噪自编码器(Denoising Auto-Encoder)"></a>降噪自编码器(Denoising Auto-Encoder)</h2><p>​        我们使用自编码器是为了得到有效的数据表示， 而有效的数据表示除了具有最小重构错误或稀疏性等性质之外，还可以要求其具备其他性质，比如对数据部分损坏（Partial Destruction）的鲁棒性。高维数据（比如图像）一般都具有一定的信息冗余，比如我们可以根据一张部分破损的图像联想出其完整内容。因此， 我们希望自编码器也能够从部分损坏的数据中得到有效的数据表示， 并能够恢复出完整的原始信息，降噪自编码器便应运而生。<br>  降噪自编码器（Denoising Auto-Encoder）就是一种通过引入噪声来增加编码鲁棒性的自编码器。DAE给输入数据添加随机的噪声扰动，如给输入x添加采样自高斯分布的噪声得到<img src="https://s2.loli.net/2022/11/10/URDnerSfG58t6FC.png" alt="https://s2.loli.net/2022/11/10/URDnerSfG58t6FC.png"></p>
+<p>添加噪声后，网络需要从x~学习到数据的真实隐藏变量z，并还原出原始的输入x</p>
+<h2 id="稀疏自编码器-Dropout-Auto-Encoder"><a href="#稀疏自编码器-Dropout-Auto-Encoder" class="headerlink" title="稀疏自编码器(Dropout Auto-Encoder)"></a>稀疏自编码器(Dropout Auto-Encoder)</h2><p>​        一般来说，自编码器的隐层节点数小于输入层的节点数，比如前面所述，为了达到降维的目的，一般使隐藏层神经元个数小于输入层神经元个数。但假设我们并不限制隐藏层神经元个数，而是限制了其中一部分神经元的活性。</p>
+<p>​        Dropout Auto-Encoder 通过随机断开网络的连接来减少网络的表达能力，防止过拟合,通过在网络层,中插入 Dropout 层即可实现网络连接的随机断开。</p>
+<h2 id="对抗自编码器-Adversarial-Auto-Encoder"><a href="#对抗自编码器-Adversarial-Auto-Encoder" class="headerlink" title="对抗自编码器(Adversarial Auto-Encoder)"></a>对抗自编码器(Adversarial Auto-Encoder)</h2><p>​        为了能够方便地从某个已知的先验分布中𝑝(𝒛)采样隐藏变量𝒛，利用𝑝(𝒛)来重建输入， 对抗自编码器(Adversarial Auto-Encoder)利用额外的判别器网络(Discriminator， 简称 D网络)来判定降维的隐藏变量𝒛是否采样自先验分布𝑝(𝒛), 判别器网络的输出为一个属于[0,1]区间的变量，表征隐藏向量是否采样自先验分布𝑝(𝒛)：所有采样自先验分布𝑝(𝒛)的𝒛标注为真， 采样自编码器的条件概率𝑞(𝒛|𝒙)的𝒛标注为假。通过这种方式训练，除了可以重建样本，还可以约束条件概率分布𝑞(𝒛|𝒙)逼近先验分布𝑝(𝒛)。</p>
+<p><img src="https://s2.loli.net/2022/11/10/B6IQs9nL7EWCj2t.png" alt="https://s2.loli.net/2022/11/10/B6IQs9nL7EWCj2t.png"></p>
+<h2 id="变分自编码器-Variational-AutoEncoders"><a href="#变分自编码器-Variational-AutoEncoders" class="headerlink" title="变分自编码器(Variational AutoEncoders)"></a>变分自编码器(Variational AutoEncoders)</h2><p>基本的自编码器本质上是学习输入𝒙和隐藏变量𝒛之间映射关系， 它是一个判别模型(Discriminative model)，并不是生成模型(Generative model)。</p>
+<p>变分自编码器(Variational AutoEncoders，VAE)：给定隐藏变量的分布P(𝒛)， 如果可以学习到条件概率分布P(𝒙|𝒛)， 则通过对联合概率分布P(𝒙, 𝒛) = P(𝒙|𝒛)P(𝒛)进行采样， 生成不同的样本</p>
+<p><img src="https://s2.loli.net/2022/11/10/gqsMPQWR4bcw5h1.png" alt="https://s2.loli.net/2022/11/10/gqsMPQWR4bcw5h1.png"></p>
+<p>​        </p>
+<p>从神经网络的角度来看， VAE 相对于自编码器模型，同样具有编码器和解码器两个子网络。解码器接受输入𝒙， 输出为隐变量𝒛；解码器负责将隐变量𝒛解码为重建的𝒙。 不同的是， VAE 模型对隐变量𝒛的分布有显式地约束，希望隐变量𝒛符合预设的先验分布P(𝒛)。在损失函数的设计上，除了原有的重建误差项外，还添加了隐变量𝒛分布的约束项。</p>
+<p>从概率的角度，假设数据集都采样自某个分布𝑝(𝒙|𝒛)， 𝒛是隐藏变量，代表了某种内部特征， 比如手写数字的图片𝒙， 𝒛可以表示字体的大小、 书写风格、 加粗、斜体等设定，它符合某个先验分布𝑝(𝒛)，在给定具体隐藏变量𝒛的情况下，可以从学到了分布𝑝(𝒙|𝒛)中采样一系列的生成样本，这些样本都具有𝒛所表示的共性。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/11/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">线性回归算法评估指标MSE、RMSE、MAE、R方</div></div></a></div><div class="next-post pull-right"><a href="/2022/11/04/%E8%BD%AF%E6%B5%8B%E9%87%8F%E7%BB%BC%E8%BF%B0/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">软测量概述</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/11/03/tensorflow/" title="TensorFlow"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-03</div><div class="title">TensorFlow</div></div></a></div><div><a href="/2022/10/18/logistics/" title="Logistic回归"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-18</div><div class="title">Logistic回归</div></div></a></div><div><a href="/2022/11/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="线性回归算法评估指标MSE、RMSE、MAE、R方"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-25</div><div class="title">线性回归算法评估指标MSE、RMSE、MAE、R方</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">whalevv</div><div class="author-info__description"></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/37379742?spm_id_from=333.1007.0.0"><i></i><span>摸鱼</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">A Blog for learning and daily <br> E-mail:1454569558@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%E5%8E%9F%E7%90%86%E4%B8%8E%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">自编码器原理与结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%E5%88%86%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">自编码器分类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">2.1.</span> <span class="toc-text">普通自编码器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">堆叠自编码器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E5%99%AA%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8-Denoising-Auto-Encoder"><span class="toc-number">2.3.</span> <span class="toc-text">降噪自编码器(Denoising Auto-Encoder)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%80%E7%96%8F%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8-Dropout-Auto-Encoder"><span class="toc-number">2.4.</span> <span class="toc-text">稀疏自编码器(Dropout Auto-Encoder)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E6%8A%97%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8-Adversarial-Auto-Encoder"><span class="toc-number">2.5.</span> <span class="toc-text">对抗自编码器(Adversarial Auto-Encoder)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8-Variational-AutoEncoders"><span class="toc-number">2.6.</span> <span class="toc-text">变分自编码器(Variational AutoEncoders)</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/12/19/FSL-Survey/" title="小样本学习综述"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="小样本学习综述"/></a><div class="content"><a class="title" href="/2022/12/19/FSL-Survey/" title="小样本学习综述">小样本学习综述</a><time datetime="2022-12-19T04:22:47.000Z" title="发表于 2022-12-19 12:22:47">2022-12-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="线性回归算法评估指标MSE、RMSE、MAE、R方"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="线性回归算法评估指标MSE、RMSE、MAE、R方"/></a><div class="content"><a class="title" href="/2022/11/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="线性回归算法评估指标MSE、RMSE、MAE、R方">线性回归算法评估指标MSE、RMSE、MAE、R方</a><time datetime="2022-11-25T08:22:47.000Z" title="发表于 2022-11-25 16:22:47">2022-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/10/AE/" title="自编码器(AutoEncoder)"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自编码器(AutoEncoder)"/></a><div class="content"><a class="title" href="/2022/11/10/AE/" title="自编码器(AutoEncoder)">自编码器(AutoEncoder)</a><time datetime="2022-11-10T07:52:47.000Z" title="发表于 2022-11-10 15:52:47">2022-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/04/%E8%BD%AF%E6%B5%8B%E9%87%8F%E7%BB%BC%E8%BF%B0/" title="软测量概述"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软测量概述"/></a><div class="content"><a class="title" href="/2022/11/04/%E8%BD%AF%E6%B5%8B%E9%87%8F%E7%BB%BC%E8%BF%B0/" title="软测量概述">软测量概述</a><time datetime="2022-11-04T06:51:09.000Z" title="发表于 2022-11-04 14:51:09">2022-11-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/tensorflow/" title="TensorFlow"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TensorFlow"/></a><div class="content"><a class="title" href="/2022/11/03/tensorflow/" title="TensorFlow">TensorFlow</a><time datetime="2022-11-03T07:54:02.000Z" title="发表于 2022-11-03 15:54:02">2022-11-03</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 ♥ whalevv</div><div class="framework-info"><br>
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">晋ICP备2022009568号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

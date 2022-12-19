@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>概率论 | whalevv</title><meta name="keywords" content="概率论"><meta name="author" content="whalevv"><meta name="copyright" content="whalevv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第二章    随机变量及其分布本章主要掌握概率分布函数与概率密度之间的转换 随机变量定义：随实验结果而变的量X称为随机变量 常见的两类随机变量：离散型、连续型 离散型随机变量及其分布定义：取值可数的随机变量为离散量  三个主要的离散型随机变量0-1分布    X 0 1     P q p     p+q&#x3D;1 二项分布n重贝努利试验：设实验E只有两种可能的结果：A, 非A，P（A）&#x3D;p，0&lt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="概率论">
+<meta property="og:url" content="http://example.com/2022/10/20/%E6%A6%82%E7%8E%87%E8%AE%BA/index.html">
+<meta property="og:site_name" content="whalevv">
+<meta property="og:description" content="第二章    随机变量及其分布本章主要掌握概率分布函数与概率密度之间的转换 随机变量定义：随实验结果而变的量X称为随机变量 常见的两类随机变量：离散型、连续型 离散型随机变量及其分布定义：取值可数的随机变量为离散量  三个主要的离散型随机变量0-1分布    X 0 1     P q p     p+q&#x3D;1 二项分布n重贝努利试验：设实验E只有两种可能的结果：A, 非A，P（A）&#x3D;p，0&lt;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-20T08:22:47.000Z">
+<meta property="article:modified_time" content="2022-11-08T09:04:18.000Z">
+<meta property="article:author" content="whalevv">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary"><link rel="shortcut icon" href="https://s2.loli.net/2022/10/17/Cy1vSmBiARjOfl4.png"><link rel="canonical" href="http://example.com/2022/10/20/%E6%A6%82%E7%8E%87%E8%AE%BA/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '概率论',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-08 17:04:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> <script src="/live2d-widget/autoload.js"></script><script src="/live2d-widget/autoload.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">whalevv</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">概率论</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-20T08:22:47.000Z" title="发表于 2022-10-20 16:22:47">2022-10-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-08T09:04:18.000Z" title="更新于 2022-11-08 17:04:18">2022-11-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">883</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="概率论"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="第二章-随机变量及其分布"><a href="#第二章-随机变量及其分布" class="headerlink" title="第二章    随机变量及其分布"></a>第二章    随机变量及其分布</h1><p>本章主要掌握概率分布函数与概率密度之间的转换</p>
+<h2 id="随机变量"><a href="#随机变量" class="headerlink" title="随机变量"></a>随机变量</h2><p>定义：随实验结果而变的量X称为随机变量</p>
+<p>常见的两类随机变量：离散型、连续型</p>
+<h2 id="离散型随机变量及其分布"><a href="#离散型随机变量及其分布" class="headerlink" title="离散型随机变量及其分布"></a>离散型随机变量及其分布</h2><p>定义：取值可数的随机变量为离散量</p>
+<p><img src="https://s2.loli.net/2022/10/20/43F6LxbYIBcqRXz.png" alt="https://s2.loli.net/2022/10/20/43F6LxbYIBcqRXz.png"></p>
+<h3 id="三个主要的离散型随机变量"><a href="#三个主要的离散型随机变量" class="headerlink" title="三个主要的离散型随机变量"></a>三个主要的离散型随机变量</h3><h4 id="0-1分布"><a href="#0-1分布" class="headerlink" title="0-1分布"></a>0-1分布</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>X</th>
+<th>0</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P</td>
+<td>q</td>
+<td>p</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>p+q=1</p>
+<h4 id="二项分布"><a href="#二项分布" class="headerlink" title="二项分布"></a>二项分布</h4><p>n重贝努利试验：设实验E只有两种可能的结果：A, 非A，P（A）=p，0&lt;p&lt;1,将E独立重复进行n次，则称这一串<strong>重复</strong>的<strong>独立</strong>实验为n重贝努利试验。</p>
+<p>即：每次实验结果互不影响，在相同条件下重复进行</p>
+<p>eg：独立重复抛n次硬币</p>
+<p>设A在n重贝努利试验中发生X次，则：</p>
+<script type="math/tex; mode=display">
+P(X=k)=C_{n}^{k}p_{k}^{k}(1-p)^{n-k}, k=0,1, \ldots, \quad n</script><p>并称X服从参数为p的二项分布，记 X~ b(n,p)</p>
+<h4 id="泊松分布（Poisson分布）"><a href="#泊松分布（Poisson分布）" class="headerlink" title="泊松分布（Poisson分布）"></a>泊松分布（Poisson分布）</h4><p>若随机变量X的概率分布律为：</p>
+<script type="math/tex; mode=display">
+P(X=k)=\frac{e^{-\lambda} \lambda^{k}}{k !}, k=0,1,2, \cdots, \lambda>0</script><p>称X服从参数为λ的泊松分布，记 X~Π（λ）</p>
+<h2 id="随机变量的分布函数"><a href="#随机变量的分布函数" class="headerlink" title="随机变量的分布函数"></a>随机变量的分布函数</h2><p>定义：随机变量X，对任意实数x，称函数F（x）=P（X≤x）为X的概率分布函数，简称分布函数。</p>
+<p>几何意义：</p>
+<p><img src="https://s2.loli.net/2022/10/20/r6Gsne5DP2wlJcb.png" alt="https://s2.loli.net/2022/10/20/r6Gsne5DP2wlJcb.png"></p>
+<p>F（x）的性质：（1）0≤F（x）≤1</p>
+<p>​                            （2）F（x）单调递增，且F（-∞）=0，F（+∞）=1</p>
+<h2 id="连续型随机变量极其概率密度"><a href="#连续型随机变量极其概率密度" class="headerlink" title="连续型随机变量极其概率密度"></a>连续型随机变量极其概率密度</h2><p>定义：对于随机变量X的分布函数F（x），若存在非负函数f（x），使对于任意实数x，有：</p>
+<script type="math/tex; mode=display">
+F(x)=\int_{-\infty}^{x} f(t) d t</script><p>则称X为连续型随机变量，其中f（x）称为X的概率密度函数，简称概率密度。</p>
+<p><img src="https://s2.loli.net/2022/10/20/fWIDX2rNo4CiTu7.png" alt="https://s2.loli.net/2022/10/20/fWIDX2rNo4CiTu7.png"></p>
+<p>🔺 概率密度求积分为分布函数，概率分布函数求导为概率密度</p>
+<h4 id="几种重要的连续性随机变量"><a href="#几种重要的连续性随机变量" class="headerlink" title="几种重要的连续性随机变量"></a>几种重要的连续性随机变量</h4><h5 id="均匀分布"><a href="#均匀分布" class="headerlink" title="均匀分布"></a>均匀分布</h5><p>定义：X具有概率密度：</p>
+<script type="math/tex; mode=display">
+f(x)=\left\{\begin{array}{ll}
+\frac{1}{b-a} & x \in(a, b) \\
+0 & \text { 其他 }
+\end{array}\right.</script><p>称X在区间（a,b）上服从均匀分布，记为X~U（a,b）</p>
+<h5 id="指数分布"><a href="#指数分布" class="headerlink" title="指数分布"></a>指数分布</h5><p>定义：设X的概率密度为：</p>
+<script type="math/tex; mode=display">
+f(x)=\left\{\begin{array}{ll}
+\lambda e^{-\lambda x} & x>0 \\
+0 & x \leq 0
+\end{array}\right.</script><p>其中λ&gt;0为常数，则称X服从参数为λ的指数分布。记为：X~EP（λ）</p>
+<p>分布函数：</p>
+<script type="math/tex; mode=display">
+F(x)=\left\{\begin{array}{ll}
+1-e^{-\lambda x} & x>0 \\
+0 & x \leq 0
+\end{array}\right.</script><h5 id="正态分布"><a href="#正态分布" class="headerlink" title="正态分布"></a>正态分布</h5><p>定义：设X的概率密度为：</p>
+<script type="math/tex; mode=display">
+f(x)=\frac{1}{\sqrt{2 \pi} \sigma} e^{\frac{(x-\mu)^{2}}{2 \sigma^{2}}}</script><p>其中μ和σ方为常数，</p>
+<p>则称X服从参数为μ和σ方的正态分布（gauss分布）</p>
+<p>记为X~N（μ，σ^2）</p>
+<p>同时有：</p>
+<script type="math/tex; mode=display">
+\int_{-\infty}^{+\infty} f(x) d x=1</script><p><img src="https://s2.loli.net/2022/10/20/SnItgQ5xmuZljOq.png" alt="https://s2.loli.net/2022/10/20/SnItgQ5xmuZljOq.png"></p>
+<h2 id="随机变量的函数分布"><a href="#随机变量的函数分布" class="headerlink" title="随机变量的函数分布"></a>随机变量的函数分布</h2><p><img src="https://s2.loli.net/2022/10/20/61ZfJgt3uPWeDNm.png" alt="https://s2.loli.net/2022/10/20/61ZfJgt3uPWeDNm.png"></p>
+<h1 id="第三章-多为随机变量及其分布"><a href="#第三章-多为随机变量及其分布" class="headerlink" title="第三章 多为随机变量及其分布"></a>第三章 多为随机变量及其分布</h1><h2 id="二维随机变量"><a href="#二维随机变量" class="headerlink" title="二维随机变量"></a>二维随机变量</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>​        定义：设E是一个随机试验，样本空间S={e}；设X=X(e)和Y=Y(e)是定义在S上的随机变量，由它们构成的向量(X,Y)叫做二维随机向量或二维随机变量。</p>
+<p>​        定义：设(X,Y)是二维随机变量对于任意实数x,y，二元函数 F(x,y) = P{(X≤x)∩(Y≤y)} == P(X≤x,Y≤y)称为二维随机变量(X,Y)的分布函数。</p>
+<h3 id="分布函数的性质"><a href="#分布函数的性质" class="headerlink" title="分布函数的性质"></a>分布函数的性质</h3><p><img src="https://s2.loli.net/2022/11/08/4hfmwlC1pN9PsuK.png" alt="https://s2.loli.net/2022/11/08/4hfmwlC1pN9PsuK.png"></p>
+<p><img src="https://s2.loli.net/2022/11/08/iFCVMKj7J59OPmc.png" alt="https://s2.loli.net/2022/11/08/iFCVMKj7J59OPmc.png"></p>
+<h3 id="分布律的性质"><a href="#分布律的性质" class="headerlink" title="分布律的性质"></a>分布律的性质</h3><p><img src="https://s2.loli.net/2022/11/08/bjDOlrx5Z7L2NSp.png" alt="https://s2.loli.net/2022/11/08/bjDOlrx5Z7L2NSp.png"></p>
+<h3 id="概率密度的性质"><a href="#概率密度的性质" class="headerlink" title="概率密度的性质"></a>概率密度的性质</h3><p><img src="https://s2.loli.net/2022/11/08/xKdhOyPeCX4tuQo.png" alt="https://s2.loli.net/2022/11/08/xKdhOyPeCX4tuQo.png"></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/">概率论</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/26/GAN/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">生成对抗网络（Generative Adversarial Networks|GAN）</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/19/RNN/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">循环神经网络RNN</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">whalevv</div><div class="author-info__description"></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/37379742?spm_id_from=333.1007.0.0"><i></i><span>摸鱼</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">A Blog for learning and daily <br> E-mail:1454569558@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83"><span class="toc-number">1.</span> <span class="toc-text">第二章    随机变量及其分布</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="toc-number">1.1.</span> <span class="toc-text">随机变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83"><span class="toc-number">1.2.</span> <span class="toc-text">离散型随机变量及其分布</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E4%B8%AA%E4%B8%BB%E8%A6%81%E7%9A%84%E7%A6%BB%E6%95%A3%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">三个主要的离散型随机变量</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#0-1%E5%88%86%E5%B8%83"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">0-1分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E9%A1%B9%E5%88%86%E5%B8%83"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">二项分布</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%8A%E6%9D%BE%E5%88%86%E5%B8%83%EF%BC%88Poisson%E5%88%86%E5%B8%83%EF%BC%89"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">泊松分布（Poisson分布）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">随机变量的分布函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E5%9E%8B%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E6%9E%81%E5%85%B6%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6"><span class="toc-number">1.4.</span> <span class="toc-text">连续型随机变量极其概率密度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%A0%E7%A7%8D%E9%87%8D%E8%A6%81%E7%9A%84%E8%BF%9E%E7%BB%AD%E6%80%A7%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">几种重要的连续性随机变量</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9D%87%E5%8C%80%E5%88%86%E5%B8%83"><span class="toc-number">1.4.0.1.1.</span> <span class="toc-text">均匀分布</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8C%87%E6%95%B0%E5%88%86%E5%B8%83"><span class="toc-number">1.4.0.1.2.</span> <span class="toc-text">指数分布</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83"><span class="toc-number">1.4.0.1.3.</span> <span class="toc-text">正态分布</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E7%9A%84%E5%87%BD%E6%95%B0%E5%88%86%E5%B8%83"><span class="toc-number">1.5.</span> <span class="toc-text">随机变量的函数分布</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%A4%9A%E4%B8%BA%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F%E5%8F%8A%E5%85%B6%E5%88%86%E5%B8%83"><span class="toc-number">2.</span> <span class="toc-text">第三章 多为随机变量及其分布</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="toc-number">2.1.</span> <span class="toc-text">二维随机变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%87%BD%E6%95%B0%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">2.1.2.</span> <span class="toc-text">分布函数的性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BE%8B%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">2.1.3.</span> <span class="toc-text">分布律的性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E7%8E%87%E5%AF%86%E5%BA%A6%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">2.1.4.</span> <span class="toc-text">概率密度的性质</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/12/19/FSL-Survey/" title="小样本学习综述"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="小样本学习综述"/></a><div class="content"><a class="title" href="/2022/12/19/FSL-Survey/" title="小样本学习综述">小样本学习综述</a><time datetime="2022-12-19T04:22:47.000Z" title="发表于 2022-12-19 12:22:47">2022-12-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="线性回归算法评估指标MSE、RMSE、MAE、R方"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="线性回归算法评估指标MSE、RMSE、MAE、R方"/></a><div class="content"><a class="title" href="/2022/11/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AE%97%E6%B3%95%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87/" title="线性回归算法评估指标MSE、RMSE、MAE、R方">线性回归算法评估指标MSE、RMSE、MAE、R方</a><time datetime="2022-11-25T08:22:47.000Z" title="发表于 2022-11-25 16:22:47">2022-11-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/10/AE/" title="自编码器(AutoEncoder)"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自编码器(AutoEncoder)"/></a><div class="content"><a class="title" href="/2022/11/10/AE/" title="自编码器(AutoEncoder)">自编码器(AutoEncoder)</a><time datetime="2022-11-10T07:52:47.000Z" title="发表于 2022-11-10 15:52:47">2022-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/04/%E8%BD%AF%E6%B5%8B%E9%87%8F%E7%BB%BC%E8%BF%B0/" title="软测量概述"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="软测量概述"/></a><div class="content"><a class="title" href="/2022/11/04/%E8%BD%AF%E6%B5%8B%E9%87%8F%E7%BB%BC%E8%BF%B0/" title="软测量概述">软测量概述</a><time datetime="2022-11-04T06:51:09.000Z" title="发表于 2022-11-04 14:51:09">2022-11-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/tensorflow/" title="TensorFlow"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="TensorFlow"/></a><div class="content"><a class="title" href="/2022/11/03/tensorflow/" title="TensorFlow">TensorFlow</a><time datetime="2022-11-03T07:54:02.000Z" title="发表于 2022-11-03 15:54:02">2022-11-03</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 ♥ whalevv</div><div class="framework-info"><br>
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">晋ICP备2022009568号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
