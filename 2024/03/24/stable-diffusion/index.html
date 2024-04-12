@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>stable diffusion | whalevv</title><meta name="author" content="whalevv"><meta name="copyright" content="whalevv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Stable Diffusion原理生成式人工智能内容（AIGC，Artificial Intelligence Generated Content）是指由人工智能系统生成的各种形式的内容，包括但不限于文字、图像、音频和视频等。这些内容是通过训练好的深度学习模型生成的，这些模型可以根据输入的条件或上下文生成新的内容。 在生成式人工智能内容中，语言模型如GPT（Generative Pre-trai">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stable diffusion">
+<meta property="og:url" content="http://example.com/2024/03/24/stable-diffusion/index.html">
+<meta property="og:site_name" content="whalevv">
+<meta property="og:description" content="Stable Diffusion原理生成式人工智能内容（AIGC，Artificial Intelligence Generated Content）是指由人工智能系统生成的各种形式的内容，包括但不限于文字、图像、音频和视频等。这些内容是通过训练好的深度学习模型生成的，这些模型可以根据输入的条件或上下文生成新的内容。 在生成式人工智能内容中，语言模型如GPT（Generative Pre-trai">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2024-03-24T07:44:45.000Z">
+<meta property="article:modified_time" content="2024-04-12T07:45:10.089Z">
+<meta property="article:author" content="whalevv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="https://s2.loli.net/2022/10/17/Cy1vSmBiARjOfl4.png"><link rel="canonical" href="http://example.com/2024/03/24/stable-diffusion/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'stable diffusion',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-12 15:45:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> <script src="/live2d-widget/autoload.js"></script><script src="/live2d-widget/autoload.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">whalevv</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">stable diffusion</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-03-24T07:44:45.000Z" title="发表于 2024-03-24 15:44:45">2024-03-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-12T07:45:10.089Z" title="更新于 2024-04-12 15:45:10">2024-04-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="stable diffusion"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Stable-Diffusion原理"><a href="#Stable-Diffusion原理" class="headerlink" title="Stable Diffusion原理"></a>Stable Diffusion原理</h1><p>生成式人工智能内容（AIGC，Artificial Intelligence Generated Content）是指由人工智能系统生成的各种形式的内容，包括但不限于文字、图像、音频和视频等。这些内容是通过训练好的深度学习模型生成的，这些模型可以根据输入的条件或上下文生成新的内容。</p>
+<p>在生成式人工智能内容中，语言模型如GPT（Generative Pre-trained Transformer）系列等可以生成各种类型的文本，包括文章、故事、诗歌等。图像生成模型如GAN（Generative Adversarial Networks）可以生成逼真的图像，甚至可以用于图像修复、风格转换等任务。类似地，音频和视频生成模型也在不断发展，能够生成逼真的声音和视频片段。</p>
+<p>生成式人工智能内容在许多领域都有应用，包括创意内容生成、教育、娱乐、广告等。然而，尽管这些技术有着巨大的潜力，但也引发了一些问题，如内容的真实性、道德问题和版权问题等，需要在使用和发展过程中加以关注和解决。</p>
+<p>Stable Diffusion是现在常用的一种技术，用于AI绘画，本期内容将对stable diffusion的原理进行一波解释。参考<a target="_blank" rel="noopener" href="https://space.bilibili.com/12566101">秋叶aaaki</a></p>
+<p><strong>Stable Diffusion模型整体上是一个End-to-End模型</strong>，主要由VAE（变分自编码器，Variational Auto-Encoder），U-Net以及CLIP Text Encoder三个核心组件构成。</p>
+<p><img src="https://s2.loli.net/2024/04/12/bRNzEUSQXGBicMP.png" alt="image.png"></p>
+<p>结构概括一下如下图所示：</p>
+<p><img src="https://s2.loli.net/2024/04/12/mjA4rBLzgHP1GuW.png" alt="1712907207986.jpg"></p>
+<p>首先将输入的单词送入文本编码器CLIP得到嵌入向量，然后送入U-Net，生成图片后送入VAE生成正常图片。</p>
+<h2 id="CLIP（Text-Encoder）"><a href="#CLIP（Text-Encoder）" class="headerlink" title="CLIP（Text Encoder）"></a>CLIP（Text Encoder）</h2><p>CLIP是一个基于对比学习的文本图像预训练方法，是一种基于对比学习的多模态模型。文本输入进去后首先经过tokenize编码变成数字，然后在送入Text Transformer得到生成图片的条件。</p>
+<p><strong>作为文生图模型，Stable Diffusion中的文本编码模块直接决定了语义信息的优良程度，从而影响到最后图片生成的多样性和可控性。</strong></p>
+<p>在这里，<strong>多模态领域的神器——CLIP（Contrastive Language-Image Pre-training）</strong>，跨过了周期，从传统深度学习时代进入AIGC时代，成为了SD系列模型中文本和图像之间的连接通道。<strong>并且从某种程度上讲，正是因为CLIP模型的前置出现，更加快速地推动了AI绘画领域的繁荣</strong>。</p>
+<p>那么，什么是CLIP呢？CLIP有哪些优良的性质呢？为什么是CLIP呢？</p>
+<p>首先，<strong>CLIP模型是一个基于对比学习的多模态模型，主要包含Text Encoder和Image Encoder两个模型</strong>。其中Text Encoder用来提取文本的特征，可以使用NLP中常用的text transformer模型作为Text Encoder；而Image Encoder主要用来提取图像的特征，可以使用CNN/vision transformer模型（ResNet和ViT）作为Image Encoder。<strong>与此同时，他直接使用4亿个图片与标签文本对数据集进行训练，来学习图片与本文内容的对应关系。</strong></p>
+<p>与U-Net的Encoder和Decoder一样，CLIP的Text Encoder和Image Encoder也能非常灵活的切换；其庞大图片与标签文本数据的预训练赋予了CLIP强大的zero-shot分类能力。</p>
+<p><strong>灵活的结构，简洁的思想，让CLIP不仅仅是个模型，也给我们一个很好的借鉴，往往伟大的产品都是大道至简的。更重要的是，CLIP把自然语言领域的抽象概念带到了计算机视觉领域。</strong></p>
+<h2 id="潜空间（Latent）"><a href="#潜空间（Latent）" class="headerlink" title="潜空间（Latent）"></a>潜空间（Latent）</h2><p>把“人话”转成数字后，我们就需要利用这些数字生成图片了。</p>
+<p>一张图片包含的信息十分多，一张512×512的图片就有巨量的数据，假设是一张RGB的图，有512×512个像素点，每个像素点由R、G、B组成不同颜色，就还要乘3。</p>
+<p>这就导致运算量过大，因此需要将数据送入“潜空间”。这个潜空间可以简单理解成压缩过的图片数据。图形数据的处理全部在这个潜空间之内，这样我们需要计算的数据就会少得多。</p>
+<h2 id="变分自编码器（VAE）"><a href="#变分自编码器（VAE）" class="headerlink" title="变分自编码器（VAE）"></a>变分自编码器（VAE）</h2><p>潜空间得到生成图片的数据后，需要通过VAE进行进一步转换+扩大，因为潜空间种的数据时经过压缩的，不是平常能看到的正常图片，这就是我们常见的VAE的作用。</p>
+<p><img src="https://s2.loli.net/2024/04/12/POx2vdo7gNGu4iE.png" alt="image.png"></p>
+<p>学习链接：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/632809634?utm_id=0&amp;wd=&amp;eqid=ca8ac56200073c40000000036566f2d0">深入浅出完整解析Stable Diffusion核心基础知识</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv21564981/">【AI绘画】大魔导书：AI 是如何绘画的？Stable Diffusion 原理全解</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/12/LORA/"><img class="prev-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">LORA的相关原理及训练</div></div></a></div><div class="next-post pull-right"><a href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">会话推荐（Session-based Recommendation）</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">whalevv</div><div class="author-info__description"></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/37379742?spm_id_from=333.1007.0.0"><i></i><span>摸鱼</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">A Blog for learning and daily <br> E-mail:1454569558@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Stable-Diffusion%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Stable Diffusion原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CLIP%EF%BC%88Text-Encoder%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">CLIP（Text Encoder）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BD%9C%E7%A9%BA%E9%97%B4%EF%BC%88Latent%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">潜空间（Latent）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E5%88%86%E8%87%AA%E7%BC%96%E7%A0%81%E5%99%A8%EF%BC%88VAE%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">变分自编码器（VAE）</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/deepLearning/" title="经典的深度学习算法代码实现："><img src="https://s2.loli.net/2023/04/25/13ZRLpmOhfCkVE9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="经典的深度学习算法代码实现："/></a><div class="content"><a class="title" href="/2024/04/12/deepLearning/" title="经典的深度学习算法代码实现：">经典的深度学习算法代码实现：</a><time datetime="2024-04-12T07:58:28.000Z" title="发表于 2024-04-12 15:58:28">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/LORA/" title="LORA的相关原理及训练"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LORA的相关原理及训练"/></a><div class="content"><a class="title" href="/2024/04/12/LORA/" title="LORA的相关原理及训练">LORA的相关原理及训练</a><time datetime="2024-04-12T07:57:36.000Z" title="发表于 2024-04-12 15:57:36">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/24/stable-diffusion/" title="stable diffusion"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="stable diffusion"/></a><div class="content"><a class="title" href="/2024/03/24/stable-diffusion/" title="stable diffusion">stable diffusion</a><time datetime="2024-03-24T07:44:45.000Z" title="发表于 2024-03-24 15:44:45">2024-03-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/" title="会话推荐（Session-based Recommendation）"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="会话推荐（Session-based Recommendation）"/></a><div class="content"><a class="title" href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/" title="会话推荐（Session-based Recommendation）">会话推荐（Session-based Recommendation）</a><time datetime="2023-04-10T01:12:47.000Z" title="发表于 2023-04-10 09:12:47">2023-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/08/SSL%E4%B8%BB%E5%8A%A8%E5%AD%A6%E4%B9%A0/" title="半监督主动学习论文阅读"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="半监督主动学习论文阅读"/></a><div class="content"><a class="title" href="/2023/03/08/SSL%E4%B8%BB%E5%8A%A8%E5%AD%A6%E4%B9%A0/" title="半监督主动学习论文阅读">半监督主动学习论文阅读</a><time datetime="2023-03-08T11:39:47.000Z" title="发表于 2023-03-08 19:39:47">2023-03-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 ♥ whalevv</div><div class="framework-info"><br>
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">晋ICP备2022009568号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>LORA的相关原理及训练 | whalevv</title><meta name="author" content="whalevv"><meta name="copyright" content="whalevv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="LORA的相关原理及训练随着AIGC的相关技术发展，人们热衷于将自己喜欢的概念或角色通过模型微调融入进作品里。但传统的Dreambooth方法对配置要求很高，同时TI、Hypernet等轻量级手段又没有那么好用。 这时有人发现了一个早在之前微软开发出来用于GPT-3的模型优化技术，它可以在保证质量的同时将模型训练参数量减少10000倍，同时还能让显存需求降到原来的三分之一，于是便想将它应用到扩散模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LORA的相关原理及训练">
+<meta property="og:url" content="http://example.com/2024/04/12/LORA/index.html">
+<meta property="og:site_name" content="whalevv">
+<meta property="og:description" content="LORA的相关原理及训练随着AIGC的相关技术发展，人们热衷于将自己喜欢的概念或角色通过模型微调融入进作品里。但传统的Dreambooth方法对配置要求很高，同时TI、Hypernet等轻量级手段又没有那么好用。 这时有人发现了一个早在之前微软开发出来用于GPT-3的模型优化技术，它可以在保证质量的同时将模型训练参数量减少10000倍，同时还能让显存需求降到原来的三分之一，于是便想将它应用到扩散模">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2024-04-12T07:57:36.000Z">
+<meta property="article:modified_time" content="2024-04-12T07:57:58.966Z">
+<meta property="article:author" content="whalevv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="https://s2.loli.net/2022/10/17/Cy1vSmBiARjOfl4.png"><link rel="canonical" href="http://example.com/2024/04/12/LORA/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LORA的相关原理及训练',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-12 15:57:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> <script src="/live2d-widget/autoload.js"></script><script src="/live2d-widget/autoload.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">whalevv</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LORA的相关原理及训练</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-12T07:57:36.000Z" title="发表于 2024-04-12 15:57:36">2024-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-12T07:57:58.966Z" title="更新于 2024-04-12 15:57:58">2024-04-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LORA的相关原理及训练"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="LORA的相关原理及训练"><a href="#LORA的相关原理及训练" class="headerlink" title="LORA的相关原理及训练"></a>LORA的相关原理及训练</h1><p>随着AIGC的相关技术发展，人们热衷于将自己喜欢的概念或角色通过模型微调融入进作品里。但传统的Dreambooth方法对配置要求很高，同时TI、Hypernet等轻量级手段又没有那么好用。</p>
+<p>这时有人发现了一个早在之前微软开发出来用于GPT-3的模型优化技术，它可以在保证质量的同时将模型训练参数量减少10000倍，同时还能让显存需求降到原来的三分之一，于是便想将它应用到扩散模型。随后这项技术被开源到网上，并被称为“低秩适应模型（LoRA）”。</p>
+<h2 id="LORA的原理"><a href="#LORA的原理" class="headerlink" title="LORA的原理"></a>LORA的原理</h2><p>随着 ChatGPT 的爆火，很多机构都开源了自己的大模型，比如清华的 ChatGLM-6B/ChatGLM-10B/ChatGLM-130B，HuggingFace 的 BLOOM-176B，OpenAI 的 ChatGPT/GPT-4，百度的<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=文心一言&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A&quot;623543497&quot;}">文心一言</a>，谷歌的 PLAM-540B，华为的盘古大模型，阿里的<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=通义千问&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A&quot;623543497&quot;}">通义千问</a>，等等。</p>
+<p>但是，对于大模型的微调训练是需要耗费很大的资金的，比如ChatGPT这种大模型，训练一次成本就在上千亿美元。那么有没有低成本方法微调大模型呢？</p>
+<p>目前主要有Adapter Tuning，微软提出的LORA，斯坦福提出的Prefix-Tuning谷歌提出的Prompt Tuning以及清华提出的P-tuning v2。</p>
+<p>这些方法各自存在一些问题：</p>
+<p>Adapter Tuning 增加了<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=模型层数&amp;search_source=Entity&amp;hybrid_search_source=Entity&amp;hybrid_search_extra={&quot;sourceType&quot;%3A&quot;article&quot;%2C&quot;sourceId&quot;%3A&quot;623543497&quot;}">模型层数</a>，引入了额外的推理延迟</p>
+<p>Prefix-Tuning 难于训练，且预留给 Prompt 的序列挤占了下游任务的输入序列空间，影响模型性能</p>
+<p>P-tuning v2 很容易导致旧知识遗忘，微调之后的模型，在之前的问题上表现明显变差。</p>
+<p>这时有人发现了一个早在之前微软开发出来用于GPT-3的模型优化技术，它可以在保证质量的同时将模型训练参数量减少10000倍，同时还能让显存需求降到原来的三分之一，于是便想将它应用到扩散模型。随后这项技术被开源到网上，并被称为“低秩适应模型（LoRA）”。</p>
+<h2 id="LORA的原理-1"><a href="#LORA的原理-1" class="headerlink" title="LORA的原理"></a>LORA的原理</h2><p>之前在Stable Diffusion的工作原理中有提到，SD模型的工作核心就是文本编码器（Text Encoder）与噪声预测器（Noise Predictor）。文本编码器只负责将文本提示转换为嵌入向量，但实际上大部分通过扩散生成图像的工作还是由后面的噪声预测器完成。</p>
+<p>Textual Inversion就是只微调了文本编码器，将输入图像的生成方式与用户创建的新的“嵌入向量”产生关联，其工作中心在文本编码器阶段，<strong>在这个过程中噪声预测器（U-Net）的工作方式是没有发生变化的</strong>，因而效果没有那么好。而诸如Dreambooth等手段则会将这两个部分一起微调，但噪声训练器训练起来比文本编码器难得多。Dreambooth（Native Fine-tune）的高配置需求就是为了能够同时去微调这里面的所有参数。在网络中控制模型算法运行逻辑的是模型权重，在复杂的网络中各种权重以矩阵的形式储存在一起。LORA做的事情主要是“冻结”了原始模型的权重，在旁边另起了一个单独的“微调权重”来进行训练，同时在这个微调权重部分进行了“偷工减料”，他们采用的方式是计算权重矩阵时只计算开头的2行2列，调出来的模型在处理任务时表现和微调1000行1000列其实差不多。所以LORA创建了两个额外的“转换器”，一个把原始参数从”满秩“状态转换为”低秩“，另一个又将“低秩”参数转换回“满秩”，我们就只需要让模型学习这两个“小矩阵“里的数据变化就可以了，这就是它实现大幅度”降本增效“的方式，从而使得”炼模型”的成本大大降低。</p>
+<p><img src="https://s2.loli.net/2024/04/12/ODLCeaNESV2s1Ic.png" alt="image.png"></p>
+<h2 id="LORA训练"><a href="#LORA训练" class="headerlink" title="LORA训练"></a>LORA训练</h2><p>为了便利性，许多开发者开发出了相关的训练脚本，其中使用最广的一套训练脚本便是Kohya，后续也出了相关的UI界面，不仅可以训练LORA，还能训练Dreambooth、TI或进行直接微调。</p>
+<p><a target="_blank" rel="noopener" href="https://gf66fxi6ji.feishu.cn/wiki/Q4EYwQl2riWw25kdN3hc5xuEnIe">训练器安装指引</a></p>
+<p>LORA的训练流程主要分为三步：</p>
+<p>1.收集训练集，收集到的训练集图片应尽量涵盖训练对象的”多样化样本“，比如角色立绘图、以及各个不同角度的角色建模截图以及二创作品等等，对于单个人物训练图片选取二十到三十张即可。</p>
+<p>2.图片与处理（裁剪+打标），裁剪使用WebUI预训练（后期处理）的只能裁剪即可，裁剪完可以手工对不好的图片重新裁剪。对于打标，可以使用WebUI后期处理中的BLIP和DeepBooru或者用WD1.4Tagger插件。</p>
+<p>3.模型训练，涉及到一些超参数与优化器的设置，这里不多赘述。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=lora%E5%BE%AE%E8%B0%83%E5%8E%9F%E7%90%86&amp;search_source=Suggestion&amp;utm_content=search_suggestion&amp;type=content"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/623543497"><em>LORA</em>：大模型轻量级<em>微调</em></a></a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16e411e7Zx/?spm_id_from=333.1007.top_right_bar_window_history.content.click">60分钟速通LORA训练</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1x8411m76H/?spm_id_from=333.788.top_right_bar_window_history.content.click&amp;vd_source=761202623a61dd9ad1221367f595c2f3">深入理解Stable Diffusion</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/12/deepLearning/"><img class="prev-cover" src="https://s2.loli.net/2023/04/25/13ZRLpmOhfCkVE9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">经典的深度学习算法代码实现：</div></div></a></div><div class="next-post pull-right"><a href="/2024/03/24/stable-diffusion/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">stable diffusion</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">whalevv</div><div class="author-info__description"></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/37379742?spm_id_from=333.1007.0.0"><i></i><span>摸鱼</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">A Blog for learning and daily <br> E-mail:1454569558@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LORA%E7%9A%84%E7%9B%B8%E5%85%B3%E5%8E%9F%E7%90%86%E5%8F%8A%E8%AE%AD%E7%BB%83"><span class="toc-number">1.</span> <span class="toc-text">LORA的相关原理及训练</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LORA%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">LORA的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LORA%E7%9A%84%E5%8E%9F%E7%90%86-1"><span class="toc-number">1.2.</span> <span class="toc-text">LORA的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LORA%E8%AE%AD%E7%BB%83"><span class="toc-number">1.3.</span> <span class="toc-text">LORA训练</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.4.</span> <span class="toc-text">参考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/deepLearning/" title="经典的深度学习算法代码实现："><img src="https://s2.loli.net/2023/04/25/13ZRLpmOhfCkVE9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="经典的深度学习算法代码实现："/></a><div class="content"><a class="title" href="/2024/04/12/deepLearning/" title="经典的深度学习算法代码实现：">经典的深度学习算法代码实现：</a><time datetime="2024-04-12T07:58:28.000Z" title="发表于 2024-04-12 15:58:28">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/LORA/" title="LORA的相关原理及训练"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LORA的相关原理及训练"/></a><div class="content"><a class="title" href="/2024/04/12/LORA/" title="LORA的相关原理及训练">LORA的相关原理及训练</a><time datetime="2024-04-12T07:57:36.000Z" title="发表于 2024-04-12 15:57:36">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/24/stable-diffusion/" title="stable diffusion"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="stable diffusion"/></a><div class="content"><a class="title" href="/2024/03/24/stable-diffusion/" title="stable diffusion">stable diffusion</a><time datetime="2024-03-24T07:44:45.000Z" title="发表于 2024-03-24 15:44:45">2024-03-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/" title="会话推荐（Session-based Recommendation）"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="会话推荐（Session-based Recommendation）"/></a><div class="content"><a class="title" href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/" title="会话推荐（Session-based Recommendation）">会话推荐（Session-based Recommendation）</a><time datetime="2023-04-10T01:12:47.000Z" title="发表于 2023-04-10 09:12:47">2023-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/08/SSL%E4%B8%BB%E5%8A%A8%E5%AD%A6%E4%B9%A0/" title="半监督主动学习论文阅读"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="半监督主动学习论文阅读"/></a><div class="content"><a class="title" href="/2023/03/08/SSL%E4%B8%BB%E5%8A%A8%E5%AD%A6%E4%B9%A0/" title="半监督主动学习论文阅读">半监督主动学习论文阅读</a><time datetime="2023-03-08T11:39:47.000Z" title="发表于 2023-03-08 19:39:47">2023-03-08</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 ♥ whalevv</div><div class="framework-info"><br>
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">晋ICP备2022009568号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
