@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>人工智能项目实战团队赛练习（模型应用部署） | whalevv</title><meta name="author" content="whalevv"><meta name="copyright" content="whalevv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="任务1：模型融合【介绍】你们研发小组已经完成了一个音乐热度预测模型的训练。在上线之前，一般需要对模型的泛化能力进行测试。模型融合可能会比单个模型有更好的泛化能力。在本任务中，你们要对多个训练好的回归模型完成模型融合，结合多个回归模型的预测结果，以生成最终的预测结果。 【目标】model1.pkl、model2.pkl、model3.pkl 是本任务提供的基于 sklearn 训练的回归模型。 请">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人工智能项目实战团队赛练习（模型应用部署）">
+<meta property="og:url" content="http://example.com/2024/05/06/ONNX/index.html">
+<meta property="og:site_name" content="whalevv">
+<meta property="og:description" content="任务1：模型融合【介绍】你们研发小组已经完成了一个音乐热度预测模型的训练。在上线之前，一般需要对模型的泛化能力进行测试。模型融合可能会比单个模型有更好的泛化能力。在本任务中，你们要对多个训练好的回归模型完成模型融合，结合多个回归模型的预测结果，以生成最终的预测结果。 【目标】model1.pkl、model2.pkl、model3.pkl 是本任务提供的基于 sklearn 训练的回归模型。 请">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2024-05-06T07:45:56.000Z">
+<meta property="article:modified_time" content="2024-05-06T07:55:11.043Z">
+<meta property="article:author" content="whalevv">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="https://s2.loli.net/2022/10/17/Cy1vSmBiARjOfl4.png"><link rel="canonical" href="http://example.com/2024/05/06/ONNX/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '人工智能项目实战团队赛练习（模型应用部署）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-05-06 15:55:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> <script src="/live2d-widget/autoload.js"></script><script src="/live2d-widget/autoload.js"></script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">whalevv</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">人工智能项目实战团队赛练习（模型应用部署）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-05-06T07:45:56.000Z" title="发表于 2024-05-06 15:45:56">2024-05-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-05-06T07:55:11.043Z" title="更新于 2024-05-06 15:55:11">2024-05-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="人工智能项目实战团队赛练习（模型应用部署）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id=""><a href="#" class="headerlink" title=" "></a> </h1><h1 id="任务1：模型融合"><a href="#任务1：模型融合" class="headerlink" title="任务1：模型融合"></a>任务1：模型融合</h1><h2 id="【介绍】"><a href="#【介绍】" class="headerlink" title="【介绍】"></a>【介绍】</h2><p>你们研发小组已经完成了一个音乐热度预测模型的训练。在上线之前，一般需要对模型的泛化能力进行测试。模型融合可能会比单个模型有更好的泛化能力。在本任务中，你们要对多个训练好的回归模型完成模型融合，结合多个回归模型的预测结果，以生成最终的预测结果。</p>
+<h2 id="【目标】"><a href="#【目标】" class="headerlink" title="【目标】"></a>【目标】</h2><p>model1.pkl、model2.pkl、model3.pkl 是本任务提供的基于 sklearn 训练的回归模型。</p>
+<p>请按要求编写以下函数代码。</p>
+<p><strong>predictY 函数</strong></p>
+<p><strong>函数功能</strong></p>
+<p>加载提供的 model1.pkl、model2.pkl、model3.pkl，分别对给定的测试数据进行预测。</p>
+<p>基于指定权重对三个模型的预测结果进行加权平均，得到模型融合后的预测结果。其中 model1.pkl、model2.pkl、model3.pkl 分别对应的权重为 0.3, 0.1, 0.6。</p>
+<p><strong>参数</strong></p>
+<p>test_data，字典，key 表示特征名，value 表示特征值。</p>
+<p><strong>返回值</strong></p>
+<p>output_ensemble，浮点型数值，表示模型融合后的预测结果。</p>
+<p>请在模块三文件夹下1.py文件中 #TODO处补充函数代码，确保实现以下目标：</p>
+<p>① 正确输出模型推理结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">predictY</span>(<span class="params">test_data</span>):</span><br><span class="line">    <span class="comment"># 加载模型</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;model1.pkl&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        model1 = pickle.load(f)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;model2.pkl&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        model2 = pickle.load(f)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;model3.pkl&quot;</span>, <span class="string">&quot;rb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        model3 = pickle.load(f)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 对测试数据进行预测</span></span><br><span class="line">    pred1 = model1.predict([[test_data[<span class="string">&#x27;feature1&#x27;</span>], test_data[<span class="string">&#x27;feature2&#x27;</span>], test_data[<span class="string">&#x27;feature3&#x27;</span>]]])[<span class="number">0</span>]</span><br><span class="line">    pred2 = model2.predict([[test_data[<span class="string">&#x27;feature1&#x27;</span>], test_data[<span class="string">&#x27;feature2&#x27;</span>], test_data[<span class="string">&#x27;feature3&#x27;</span>]]])[<span class="number">0</span>]</span><br><span class="line">    pred3 = model3.predict([[test_data[<span class="string">&#x27;feature1&#x27;</span>], test_data[<span class="string">&#x27;feature2&#x27;</span>], test_data[<span class="string">&#x27;feature3&#x27;</span>]]])[<span class="number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 模型融合</span></span><br><span class="line">    output_ensemble = <span class="number">0.3</span> * pred1 + <span class="number">0.1</span> * pred2 + <span class="number">0.6</span> * pred3</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> output_ensemble</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试数据</span></span><br><span class="line">test_data = &#123;<span class="string">&#x27;feature1&#x27;</span>: <span class="number">0.5</span>, <span class="string">&#x27;feature2&#x27;</span>: <span class="number">0.3</span>, <span class="string">&#x27;feature3&#x27;</span>: <span class="number">0.8</span>&#125;</span><br><span class="line">result = predictY(test_data)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+<h1 id="任务2：模型转换"><a href="#任务2：模型转换" class="headerlink" title="任务2：模型转换"></a>任务2：模型转换</h1><h2 id="【介绍】-1"><a href="#【介绍】-1" class="headerlink" title="【介绍】"></a>【介绍】</h2><p>在前面的任务中，我们搭建并训练完成了文本分析模型。在实际应用中，还需要将训练后的模型转换为其他格式，以支持不同的推理引擎。ONNX（Open Neural Network Exchange）提供了一个开放的源模型格式，支持多种深度学习框架之间的模型转换。本任务要求你们研发小组将提供的基于 PyTorch 的文本分类模型转换为 ONNX 格式，并实现一个使用 ONNX 模型进行推理的简单应用。model.pt是本任务提供的 PyTorch 模型权重文件。</p>
+<h2 id="【目标】-1"><a href="#【目标】-1" class="headerlink" title="【目标】"></a>【目标】</h2><p>请按要求编写以下函数代码。</p>
+<p><strong>convert 函数</strong></p>
+<p><strong>函数功能</strong></p>
+<p>将本任务提供的 pt 模型文件转换为 ONNX 格式。</p>
+<p>ONNX 模型文件保存在模块三文件夹下，命名为 text_classifier.onnx。</p>
+<p><strong>inference 函数</strong></p>
+<p><strong>函数功能</strong></p>
+<p>读取 ONNX 模型文件。</p>
+<p>使用 ONNX 模型进行推理。</p>
+<p>返回推理结果。</p>
+<p><strong>参数</strong></p>
+<p>model_path，字符串类型，ONNX 模型文件的绝对路径。</p>
+<p>input，整数列表类型，为待预测样本，示例如：[101, 304, 993, 1008,102]。</p>
+<p><strong>返回值</strong></p>
+<p>result，浮点数列表类型，为 ONNX 文件推理结果，示例如：[[0.53419, 0.44313]]。</p>
+<p>请在模块三文件夹下2.py文件中 #TODO 处补充函数代码，并执行 main() 函数，确保能够实现以下目标：</p>
+<p>① 正确转换模型文件。</p>
+<p>② 正确输出推理结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.onnx</span><br><span class="line"><span class="keyword">import</span> onnx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转换模型为ONNX格式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">convert</span>(<span class="params">model_path</span>):</span><br><span class="line">    <span class="comment"># 加载PyTorch模型</span></span><br><span class="line">    model = torch.load(model_path)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 设置模型为评估模式</span></span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 创建一个模拟输入</span></span><br><span class="line">    dummy_input = torch.LongTensor([<span class="number">101</span>, <span class="number">304</span>, <span class="number">993</span>, <span class="number">1008</span>, <span class="number">102</span>]).unsqueeze(<span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用torch.onnx导出模型</span></span><br><span class="line">    torch.onnx.export(model, dummy_input, <span class="string">&quot;text_classifier.onnx&quot;</span>, verbose=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用ONNX模型进行推理</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">inference</span>(<span class="params">model_path, <span class="built_in">input</span></span>):</span><br><span class="line">    <span class="comment"># 加载ONNX模型</span></span><br><span class="line">    model = onnx.load(model_path)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 准备输入数据</span></span><br><span class="line">    input_data = torch.LongTensor(<span class="built_in">input</span>).unsqueeze(<span class="number">0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 使用ONNX模型进行推理</span></span><br><span class="line">    ort_session = onnxruntime.InferenceSession(model_path)</span><br><span class="line">    ort_inputs = &#123;ort_session.get_inputs()[<span class="number">0</span>].name: input_data.numpy()&#125;</span><br><span class="line">    ort_outs = ort_session.run(<span class="literal">None</span>, ort_inputs)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ort_outs</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="comment"># 转换模型</span></span><br><span class="line">    convert(<span class="string">&quot;model.pt&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 进行推理</span></span><br><span class="line">    result = inference(<span class="string">&quot;text_classifier.onnx&quot;</span>, [<span class="number">101</span>, <span class="number">304</span>, <span class="number">993</span>, <span class="number">1008</span>, <span class="number">102</span>])</span><br><span class="line">    <span class="built_in">print</span>(result)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h1 id="任务3：模型部署"><a href="#任务3：模型部署" class="headerlink" title="任务3：模型部署"></a>任务3：模型部署</h1><h2 id="【介绍】-2"><a href="#【介绍】-2" class="headerlink" title="【介绍】"></a>【介绍】</h2><p>为了充分挖掘新媒体平台上积累的用户文本数据中的命名实体信息并为其他应用提供服务，我们需要将该模型部署到线上环境。一般来说，在自然语言处理应用的开发中，我们会使用 Web 框架（如 Flask）部署模型，并为外部提供 API 接口以支持在线预测。在本任务中，你们研发小组将接手一个部分完成的 Flask 项目。该项目已经包括了命名实体识别（NER）模型的载入、运行以及接收 tokenize 后的数据的代码。考生的核心任务是将模型的整数向量输出转换为一个结构化的实体标注列表，并通过 Flask API 返回这个列表。此步骤不仅实现了自动化的实体识别，更使得新媒体平台可以实时、高效地获取文本中的实体信息，为后续的数据分析和运营决策提供有力支撑。ner.pt是本任务提供的 PyTorch 模型权重文件。</p>
+<h2 id="【目标】-2"><a href="#【目标】-2" class="headerlink" title="【目标】"></a>【目标】</h2><p>请按要求编写以下函数代码。</p>
+<p><strong>process函数</strong></p>
+<p><strong>函数功能</strong></p>
+<p>将本任务提供的请求数据使用提供的模型进行推理。</p>
+<p>将推理结果转换为结构化的实体标注列表。</p>
+<p>对于不合理的序列，如单字实体 [‘O’, ‘B-LOC’, ‘O’] 和以 I- 起始的实体 [‘O’, ‘I-LOC’, ‘I-LOC’]，将其作为非实体序列处理。</p>
+<p>实体标注列表为一个嵌套字典列表，其中列表中每个元素及其说明见下表。</p>
+<p>请在模块三文件夹下3.py文件中 #TODO 处补充函数代码，并运行代码块，确保能够实现以下目标：</p>
+<p>① 正确地使用模型进行推理。</p>
+<p>② 返回正确的结构化结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, jsonify</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义模型结构</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NERModel</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, input_dim, hidden_dim, output_dim</span>):</span><br><span class="line">        <span class="built_in">super</span>(NERModel, self).__init__()</span><br><span class="line">        self.embedding = nn.Embedding(input_dim, hidden_dim)</span><br><span class="line">        self.lstm = nn.LSTM(hidden_dim, hidden_dim)</span><br><span class="line">        self.fc = nn.Linear(hidden_dim, output_dim)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        embedded = self.embedding(x)</span><br><span class="line">        output, _ = self.lstm(embedded)</span><br><span class="line">        output = self.fc(output)</span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载模型权重</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_model</span>(<span class="params">model_path</span>):</span><br><span class="line">    model = NERModel(input_dim=<span class="number">1000</span>, hidden_dim=<span class="number">128</span>, output_dim=<span class="number">5</span>) <span class="comment"># 这里根据实际情况设置input_dim和output_dim</span></span><br><span class="line">    model.load_state_dict(torch.load(model_path))</span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">return</span> model</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理请求数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process</span>(<span class="params">model, input_data</span>):</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        output = model(input_data)</span><br><span class="line">        output = F.softmax(output, dim=-<span class="number">1</span>)</span><br><span class="line">        pred_labels = output.argmax(dim=-<span class="number">1</span>).tolist()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 转换预测结果为实体标注列表</span></span><br><span class="line">        entities = []</span><br><span class="line">        entity = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> idx, label <span class="keyword">in</span> <span class="built_in">enumerate</span>(pred_labels):</span><br><span class="line">            <span class="keyword">if</span> label == <span class="number">0</span>:  <span class="comment"># O</span></span><br><span class="line">                <span class="keyword">if</span> entity:</span><br><span class="line">                    entities.append(entity)</span><br><span class="line">                    entity = &#123;&#125;</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="number">1</span>:   <span class="comment"># B-PER</span></span><br><span class="line">                <span class="keyword">if</span> entity:</span><br><span class="line">                    entities.append(entity)</span><br><span class="line">                    entity = &#123;&#125;</span><br><span class="line">                entity[<span class="string">&#x27;start&#x27;</span>] = idx</span><br><span class="line">                entity[<span class="string">&#x27;end&#x27;</span>] = idx</span><br><span class="line">                entity[<span class="string">&#x27;label&#x27;</span>] = <span class="string">&#x27;PER&#x27;</span></span><br><span class="line">            <span class="keyword">elif</span> label == <span class="number">2</span>:  <span class="comment"># I-PER</span></span><br><span class="line">                <span class="keyword">if</span> <span class="string">&#x27;start&#x27;</span> <span class="keyword">in</span> entity:</span><br><span class="line">                    entity[<span class="string">&#x27;end&#x27;</span>] = idx</span><br><span class="line">            <span class="comment"># 添加其他实体类型的处理</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> entity:</span><br><span class="line">            entities.append(entity)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> entities</span><br><span class="line"></span><br><span class="line"><span class="comment"># Flask API</span></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">model = load_model(<span class="string">&quot;ner.pt&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/predict&#x27;</span>, methods=[<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>():</span><br><span class="line">    data = request.get_json()</span><br><span class="line">    input_data = torch.LongTensor(data[<span class="string">&#x27;input&#x27;</span>]).unsqueeze(<span class="number">0</span>)</span><br><span class="line">    entities = process(model, input_data)</span><br><span class="line">    <span class="keyword">return</span> jsonify(entities)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/04/12/deepLearning/"><img class="next-cover" src="https://s2.loli.net/2023/04/25/13ZRLpmOhfCkVE9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">经典的深度学习算法代码实现：</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2022/10/17/soEOuBYj61cRpvU.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">whalevv</div><div class="author-info__description"></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://space.bilibili.com/37379742?spm_id_from=333.1007.0.0"><i></i><span>摸鱼</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">A Blog for learning and daily <br> E-mail:1454569558@qq.com</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"> </span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A11%EF%BC%9A%E6%A8%A1%E5%9E%8B%E8%9E%8D%E5%90%88"><span class="toc-number">2.</span> <span class="toc-text">任务1：模型融合</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90%E4%BB%8B%E7%BB%8D%E3%80%91"><span class="toc-number">2.1.</span> <span class="toc-text">【介绍】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90%E7%9B%AE%E6%A0%87%E3%80%91"><span class="toc-number">2.2.</span> <span class="toc-text">【目标】</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A12%EF%BC%9A%E6%A8%A1%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.</span> <span class="toc-text">任务2：模型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90%E4%BB%8B%E7%BB%8D%E3%80%91-1"><span class="toc-number">3.1.</span> <span class="toc-text">【介绍】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90%E7%9B%AE%E6%A0%87%E3%80%91-1"><span class="toc-number">3.2.</span> <span class="toc-text">【目标】</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A13%EF%BC%9A%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2"><span class="toc-number">4.</span> <span class="toc-text">任务3：模型部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90%E4%BB%8B%E7%BB%8D%E3%80%91-2"><span class="toc-number">4.1.</span> <span class="toc-text">【介绍】</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E3%80%90%E7%9B%AE%E6%A0%87%E3%80%91-2"><span class="toc-number">4.2.</span> <span class="toc-text">【目标】</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/06/ONNX/" title="人工智能项目实战团队赛练习（模型应用部署）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="人工智能项目实战团队赛练习（模型应用部署）"/></a><div class="content"><a class="title" href="/2024/05/06/ONNX/" title="人工智能项目实战团队赛练习（模型应用部署）">人工智能项目实战团队赛练习（模型应用部署）</a><time datetime="2024-05-06T07:45:56.000Z" title="发表于 2024-05-06 15:45:56">2024-05-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/deepLearning/" title="经典的深度学习算法代码实现："><img src="https://s2.loli.net/2023/04/25/13ZRLpmOhfCkVE9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="经典的深度学习算法代码实现："/></a><div class="content"><a class="title" href="/2024/04/12/deepLearning/" title="经典的深度学习算法代码实现：">经典的深度学习算法代码实现：</a><time datetime="2024-04-12T07:58:28.000Z" title="发表于 2024-04-12 15:58:28">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/12/LORA/" title="LORA的相关原理及训练"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LORA的相关原理及训练"/></a><div class="content"><a class="title" href="/2024/04/12/LORA/" title="LORA的相关原理及训练">LORA的相关原理及训练</a><time datetime="2024-04-12T07:57:36.000Z" title="发表于 2024-04-12 15:57:36">2024-04-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/24/stable-diffusion/" title="stable diffusion"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="stable diffusion"/></a><div class="content"><a class="title" href="/2024/03/24/stable-diffusion/" title="stable diffusion">stable diffusion</a><time datetime="2024-03-24T07:44:45.000Z" title="发表于 2024-03-24 15:44:45">2024-03-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/" title="会话推荐（Session-based Recommendation）"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="会话推荐（Session-based Recommendation）"/></a><div class="content"><a class="title" href="/2023/04/10/%E4%BC%9A%E8%AF%9D%E6%8E%A8%E8%8D%901/" title="会话推荐（Session-based Recommendation）">会话推荐（Session-based Recommendation）</a><time datetime="2023-04-10T01:12:47.000Z" title="发表于 2023-04-10 09:12:47">2023-04-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 ♥ whalevv</div><div class="framework-info"><br>
+<a href="http://www.beian.miit.gov.cn/"  style="color:#f72b07" target="_blank">晋ICP备2022009568号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.2
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container:not\([display]\)').forEach(node => {
+            const target = node.parentNode
+            if (target.nodeName.toLowerCase() === 'li') {
+              target.parentNode.classList.add('has-jax')
+            } else {
+              target.classList.add('has-jax')
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
